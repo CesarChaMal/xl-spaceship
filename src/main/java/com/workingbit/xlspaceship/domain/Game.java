@@ -25,7 +25,7 @@ public class Game {
     }
 
     public List<String> getOpponentBoardAsList() {
-        return opponentBoard.getBoardAsList(true);
+        return opponentBoard.getBoardAsList(false);
     }
 
     @Override

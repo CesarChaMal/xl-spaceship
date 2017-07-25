@@ -65,19 +65,17 @@ public abstract class Ship {
             char[] chars = line.toCharArray();
             for (int j = 0; j < chars.length; j++) {
                 String ch = String.valueOf(chars[j]);
-                System.out.print(ch);
+                int y = getCoords().getY() + i;
+                int x = getCoords().getX() + j;
                 if (ch.equals(EnumCellType.SHIP.shape())) {
-                    int y = getCoords().getY() + i;
-                    int x = getCoords().getX() + j;
                     if (x >= AppConstants.BOARD_SIZE || y >= AppConstants.BOARD_SIZE) {
                         return false;
                     }
-                    cells[i][j] = new Cell(x, y,
-                            EnumCellType.SHIP,
-                            this);
+                    cells[i][j] = new Cell(x, y, EnumCellType.SHIP, this);
+                } else {
+                    cells[i][j] = new Cell(x, y, EnumCellType.UNKNOWN, this);
                 }
             }
-            System.out.println();
         }
         setShip(cells);
 
@@ -95,5 +93,20 @@ public abstract class Ship {
                 getBoard().getBoard()[cell.getCoords().getY()][cell.getCoords().getX()] = reset ? null : cell;
             }
         }
+    }
+
+    /**
+     * Ship is not killed if at least one part is ship
+     * @return
+     */
+    public boolean isKilled() {
+        for (Cell[] aShip : ship) {
+            for (Cell anAShip : aShip) {
+                if (anAShip.getType() == EnumCellType.SHIP) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
