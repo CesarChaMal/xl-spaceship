@@ -5,7 +5,7 @@ package com.workingbit.xlspaceship.domain;
  */
 public enum EnumCellType {
 
-    SHIP("*"), MISSED_SHOT("-"), GOT("X"), UNKNOWN(".");
+    SHIP("*"), MISSED_SHOT("-"), FIRED("X"), UNKNOWN(".");
 
     private final String shape;
 
