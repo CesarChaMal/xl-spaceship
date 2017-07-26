@@ -4,10 +4,7 @@ import com.workingbit.xlspaceship.domain.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -117,5 +114,19 @@ public class GameService {
         }
         response.put("game", playerTurn);
         return response;
+    }
+
+    public Map<String, Object> autopilot(String gameId) {
+        Map<String, Object> request = new HashMap<>();
+        List<String> salvo = new ArrayList<>();
+        Game game = games.get(gameId);
+        int shipCount = game.getPlayerBoard().getShipCount();
+        for (int i = 0; i < shipCount; i++) {
+            String x = Integer.toHexString(RandomUtils.nextInt(0, 16));
+            String y = Integer.toHexString(RandomUtils.nextInt(0, 16));
+            salvo.add(y + "x" + x);
+        }
+        request.put("salvo", salvo);
+        return fire(gameId, request, true);
     }
 }

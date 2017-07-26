@@ -27,9 +27,9 @@ public class UserController {
         return gameService.fire(gameId, request, true);
     }
 
-    @GetMapping(AppConstants.GAME_AUTOPILOT_RESOURCE)
-    public String autopilot(@PathVariable("game_id") String gameId) {
-        return gameId;
+    @PostMapping(AppConstants.GAME_AUTOPILOT_RESOURCE)
+    public Map<String, Object> autopilot(@PathVariable("gameId") String gameId) {
+        return gameService.autopilot(gameId);
     }
 
     @GetMapping(AppConstants.GAME_NEW_RESOURCE)
