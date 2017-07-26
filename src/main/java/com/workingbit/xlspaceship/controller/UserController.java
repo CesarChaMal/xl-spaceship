@@ -24,7 +24,7 @@ public class UserController {
 
     @PutMapping(AppConstants.GAME_FIRE_RESOURCE)
     public Map<String, Object> fire(@PathVariable String gameId, @RequestBody Map<String, Object> request) {
-        return gameService.fire(gameId, request);
+        return gameService.fire(gameId, request, true);
     }
 
     @GetMapping(AppConstants.GAME_AUTOPILOT_RESOURCE)

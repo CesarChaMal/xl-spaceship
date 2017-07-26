@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 public class Board {
 
+    private int shipCount;
     private User player;
     private Cell[][] board;
 
@@ -87,5 +88,13 @@ public class Board {
                 e.printStackTrace();
             }
         }
+        shipCount++;
+    }
+
+    public void decShipCount() {
+        if (shipCount <= 0) {
+            return;
+        }
+        shipCount--;
     }
 }

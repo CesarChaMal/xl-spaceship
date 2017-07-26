@@ -4,6 +4,7 @@ import com.workingbit.xlspaceship.domain.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class GameService {
         response.put("full_name", opponent.getFullName());
         // assign game id
         response.put("game_id", "match-" + RandomUtils.nextInt());
-        response.put("starting", "game-" + RandomUtils.nextInt());
+        response.put("starting", player.getUserId());
         response.put("rules", request.get("rules"));
         // create game
         Game game = new Game(player, opponent);
@@ -35,6 +36,9 @@ public class GameService {
     }
 
     public Map<String, Object> getGame(String gameId) {
+        if (games.isEmpty()) {
+            return Collections.emptyMap();
+        }
         Map<String, Object> response = new HashMap<>();
         Map<String, Object> self = new HashMap<>();
         self.put("user_id", games.get(gameId).getPlayerBoard().getPlayer().getUserId());
@@ -51,7 +55,14 @@ public class GameService {
         return response;
     }
 
-    public Map<String, Object> fire(String gameId, Map<String, Object> request) {
+    /**
+     * Marks game's board with shots
+     * @param gameId id of game
+     * @param request salvo
+     * @param opponent who will be fired
+     * @return bitten fields
+     */
+    public Map<String, Object> fire(String gameId, Map<String, Object> request, boolean opponent) {
         List<String> salvo = (List<String>) request.get("salvo");
         List<Map<String, Coords>> salvos = salvo.stream()
                 .map((s) -> {
@@ -64,14 +75,16 @@ public class GameService {
                 .collect(Collectors.toList());
         Game game = games.get(gameId);
         Map<String, String> fired = new HashMap<>();
+        Board playerBoard = opponent ? game.getOpponentBoard() : game.getPlayerBoard();
         for (Map<String, Coords> stringCoordsMap : salvos) {
-            for (Cell[] cells : game.getOpponentBoard().getBoard()) {
+            for (Cell[] cells : playerBoard.getBoard()) {
                 for (Cell cell : cells) {
                     if (stringCoordsMap.values().toArray()[0].equals(cell.getCoords())) {
                         switch (cell.getType()) {
                             case SHIP: {
                                 cell.setType(EnumCellType.HIT);
                                 if (cell.getShip().isKilled()) {
+                                    playerBoard.decShipCount();
                                     fired.put((String) stringCoordsMap.keySet().toArray()[0], "kill");
                                 } else {
                                     fired.put((String) stringCoordsMap.keySet().toArray()[0], "hit");
@@ -94,8 +107,14 @@ public class GameService {
         Map<String, Object> response = new HashMap<>();
         response.put("salvo", fired);
         Map<String, String> playerTurn = new HashMap<>();
-        game.setPlayerTurn(game.getOpponentBoard().getPlayer());
-        playerTurn.put("player_turn", game.getPlayerTurn().getUserId());
+        game.setPlayerTurn(playerBoard.getPlayer());
+        if (game.getPlayerBoard().getShipCount() == 0) {
+            playerTurn.put("won", game.getOpponentBoard().getPlayer().getUserId());
+        } else if (game.getOpponentBoard().getShipCount() == 0) {
+            playerTurn.put("won", game.getPlayerBoard().getPlayer().getUserId());
+        } else {
+            playerTurn.put("player_turn", game.getPlayerTurn().getUserId());
+        }
         response.put("game", playerTurn);
         return response;
     }

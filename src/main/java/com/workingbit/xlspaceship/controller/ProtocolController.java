@@ -23,7 +23,7 @@ public class ProtocolController {
     }
 
     @PutMapping(AppConstants.PROTOCOL_CATCH_SALVO_RESOURCE)
-    public String catchSalvo() {
-        return "";
+    public Map<String, Object> catchSalvo(@PathVariable String gameId, @RequestBody Map<String, Object> request) {
+        return gameService.fire(gameId, request, false);
     }
 }
