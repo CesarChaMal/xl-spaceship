@@ -14,7 +14,8 @@ public class WingerShipTest {
     public void setUp() throws Exception {
         this.game = new Game(
                 new User("player-1", "player-1"),
-                new User("player-2", "player-2"));
+                new User("player-2", "player-2"),
+                "standard");
     }
 
     @Test

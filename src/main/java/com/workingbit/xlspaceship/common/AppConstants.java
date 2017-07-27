@@ -18,4 +18,5 @@ public class AppConstants {
     public static final String PROTOCOL_GAME_NEW_RESOURCE = "/game/new";
     public static final String GAME_ID_RESOURCE = "/game/{gameId}";
     public static final String LOCAL_CLIENT_URL = "http://localhost:4200";
+    public static final int SHIP_COUNT = 5;
 }

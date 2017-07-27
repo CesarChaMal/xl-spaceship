@@ -10,11 +10,13 @@ import java.util.List;
 @Data
 public class Game {
 
+    private EnumRule rule;
     private Board playerBoard;
     private Board opponentBoard;
     private User playerTurn;
 
-    public Game(User player, User opponent) {
+    public Game(User player, User opponent, String rules) {
+        this.rule = EnumRule.fromString(rules);
         playerBoard = new Board(player);
         opponentBoard = new Board(opponent);
         playerTurn = player;

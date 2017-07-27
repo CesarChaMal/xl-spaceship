@@ -26,7 +26,7 @@ public class GameService {
         response.put("starting", player.getUserId());
         response.put("rules", request.get("rules"));
         // create game
-        Game game = new Game(player, opponent);
+        Game game = new Game(player, opponent, (String) request.get("rules"));
         game.placeShips();
         games.put(((String) response.get("game_id")), game);
         return response;
@@ -120,8 +120,8 @@ public class GameService {
         Map<String, Object> request = new HashMap<>();
         List<String> salvo = new ArrayList<>();
         Game game = games.get(gameId);
-        int shipCount = game.getPlayerBoard().getShipCount();
-        for (int i = 0; i < shipCount; i++) {
+        int salvoLength = game.getRule().getShotCount(game.getPlayerBoard());
+        for (int i = 0; i < salvoLength; i++) {
             String x = Integer.toHexString(RandomUtils.nextInt(0, 16));
             String y = Integer.toHexString(RandomUtils.nextInt(0, 16));
             salvo.add(y + "x" + x);

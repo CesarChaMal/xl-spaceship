@@ -21,6 +21,7 @@ public class Board {
     private int shipCount;
     private User player;
     private Cell[][] board;
+    private Integer opponentShipCount;
 
     public Board(User player) {
         this.player = player;
@@ -96,5 +97,9 @@ public class Board {
             return;
         }
         shipCount--;
+    }
+
+    public Integer getOpponentShipCount() {
+        return opponentShipCount;
     }
 }
