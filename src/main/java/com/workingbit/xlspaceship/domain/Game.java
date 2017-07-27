@@ -41,5 +41,8 @@ public class Game {
     public void placeShips() {
         playerBoard.randomPlaceShips();
         opponentBoard.randomPlaceShips();
+        // cross linking ship's count
+        playerBoard.opponentShipCount = opponentBoard.shipCount;
+        opponentBoard.opponentShipCount = playerBoard.shipCount;
     }
 }

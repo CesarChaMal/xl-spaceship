@@ -36,11 +36,11 @@ public enum EnumRule {
     public int getShotCount(Board player) {
         switch (this) {
             case STANDARD:
-                return player.getShipCount();
+                return player.shipCount;
             case X_SHOT:
                 return xShot;
             case DESPERATION:
-                return AppConstants.SHIP_COUNT - player.getOpponentShipCount() + 1;
+                return AppConstants.SHIP_COUNT - player.opponentShipCount + 1;
         }
         throw new RuntimeException("Unknown rules");
     }

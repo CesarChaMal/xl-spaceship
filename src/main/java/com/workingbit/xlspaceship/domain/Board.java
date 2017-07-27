@@ -18,10 +18,10 @@ import java.util.List;
 @Data
 public class Board {
 
-    private int shipCount;
+    public Integer shipCount = 0;
     private User player;
     private Cell[][] board;
-    private Integer opponentShipCount;
+    public Integer opponentShipCount;
 
     public Board(User player) {
         this.player = player;
@@ -97,9 +97,5 @@ public class Board {
             return;
         }
         shipCount--;
-    }
-
-    public Integer getOpponentShipCount() {
-        return opponentShipCount;
     }
 }
