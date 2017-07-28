@@ -69,8 +69,8 @@ public class Board {
     }
 
     public void randomPlaceShips() {
-        randomPlaceShip(String.format("/ships/one/a-class-%s.ship", RandomUtils.nextInt(0, 4)), BClassShip.class);
-//        randomPlaceShip(String.format("/ships/bclass/b-class-%s.ship", RandomUtils.nextInt(0, 4)), BClassShip.class);
+//        randomPlaceShip(String.format("/ships/one/a-class-%s.ship", RandomUtils.nextInt(0, 4)), BClassShip.class);
+        randomPlaceShip(String.format("/ships/bclass/b-class-%s.ship", RandomUtils.nextInt(0, 4)), BClassShip.class);
         randomPlaceShip(String.format("/ships/sclass/s-class-%s.ship", RandomUtils.nextInt(0, 4)), SClassShip.class);
         randomPlaceShip(String.format("/ships/winger/winger-%s.ship", RandomUtils.nextInt(0, 4)), WingerShip.class);
         randomPlaceShip(String.format("/ships/aclass/a-class-%s.ship", RandomUtils.nextInt(0, 4)), AClassShip.class);
