@@ -52,7 +52,6 @@ public class Board {
     }
 
     public List<String> getBoardAsList(boolean opponent) {
-        opponent = false;
         List<String> list = new ArrayList<>();
         for (Cell[] cells1 : board) {
             StringBuilder stringBuilder = new StringBuilder();
