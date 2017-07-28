@@ -42,7 +42,7 @@ public class Game {
         playerBoard.randomPlaceShips();
         opponentBoard.randomPlaceShips();
         // cross linking ship's count
-        playerBoard.opponentShipCount = opponentBoard.shipCount;
-        opponentBoard.opponentShipCount = playerBoard.shipCount;
+        playerBoard.opponent = opponentBoard;
+        opponentBoard.opponent = playerBoard;
     }
 }

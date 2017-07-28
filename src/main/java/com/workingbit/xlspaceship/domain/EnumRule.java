@@ -40,7 +40,9 @@ public enum EnumRule {
             case X_SHOT:
                 return xShot;
             case DESPERATION:
-                return AppConstants.SHIP_COUNT - player.opponentShipCount + 1;
+                return AppConstants.SHIP_COUNT - player.opponent.shipCount + 1;
+            case SUPER_CHARGE:
+                return (player.isAwarded() ? player.shipCount : 0) + player.shipCount;
         }
         throw new RuntimeException("Unknown rules");
     }

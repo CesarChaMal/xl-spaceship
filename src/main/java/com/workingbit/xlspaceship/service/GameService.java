@@ -71,38 +71,10 @@ public class GameService {
                 })
                 .collect(Collectors.toList());
         Game game = games.get(gameId);
-        Map<String, String> fired = new HashMap<>();
         Board playerBoard = opponent ? game.getOpponentBoard() : game.getPlayerBoard();
-        for (Map<String, Coords> stringCoordsMap : salvos) {
-            for (Cell[] cells : playerBoard.getBoard()) {
-                for (Cell cell : cells) {
-                    if (stringCoordsMap.values().toArray()[0].equals(cell.getCoords())) {
-                        switch (cell.getType()) {
-                            case SHIP: {
-                                cell.setType(EnumCellType.HIT);
-                                if (cell.getShip().isKilled()) {
-                                    playerBoard.decShipCount();
-                                    fired.put((String) stringCoordsMap.keySet().toArray()[0], "kill");
-                                } else {
-                                    fired.put((String) stringCoordsMap.keySet().toArray()[0], "hit");
-                                }
-                                break;
-                            }
-                            case UNKNOWN: {
-                                fired.put((String) stringCoordsMap.keySet().toArray()[0], "miss");
-                                cell.setType(EnumCellType.MISS);
-                                break;
-                            }
-                            case HIT:
-                            case MISS:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
         Map<String, Object> response = new HashMap<>();
-        response.put("salvo", fired);
+        Map<String, String> hits = playerBoard.markSalvo(salvos);
+        response.put("salvo", hits);
         Map<String, String> playerTurn = new HashMap<>();
         game.setPlayerTurn(playerBoard.getPlayer());
         if (game.getPlayerBoard().getShipCount() == 0) {

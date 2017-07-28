@@ -10,7 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Aleksey Popryaduhin on 16:37 24/07/2017.
@@ -21,7 +23,8 @@ public class Board {
     public Integer shipCount = 0;
     private User player;
     private Cell[][] board;
-    public Integer opponentShipCount;
+    public Board opponent;
+    private boolean awarded;
 
     public Board(User player) {
         this.player = player;
@@ -99,5 +102,40 @@ public class Board {
             return;
         }
         shipCount--;
+    }
+
+    public Map<String, String> markSalvo(List<Map<String, Coords>> salvos) {
+        Map<String, String> fired = new HashMap<>();
+        opponent.awarded = false;
+        for (Map<String, Coords> stringCoordsMap : salvos) {
+            for (Cell[] cells : board) {
+                for (Cell cell : cells) {
+                    if (stringCoordsMap.values().toArray()[0].equals(cell.getCoords())) {
+                        switch (cell.getType()) {
+                            case SHIP: {
+                                cell.setType(EnumCellType.HIT);
+                                if (cell.getShip().isKilled()) {
+                                    opponent.awarded = true;
+                                    decShipCount();
+                                    fired.put((String) stringCoordsMap.keySet().toArray()[0], "kill");
+                                } else {
+                                    fired.put((String) stringCoordsMap.keySet().toArray()[0], "hit");
+                                }
+                                break;
+                            }
+                            case UNKNOWN: {
+                                fired.put((String) stringCoordsMap.keySet().toArray()[0], "miss");
+                                cell.setType(EnumCellType.MISS);
+                                break;
+                            }
+                            case HIT:
+                            case MISS:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return fired;
     }
 }
