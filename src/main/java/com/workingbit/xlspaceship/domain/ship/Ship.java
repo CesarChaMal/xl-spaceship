@@ -44,17 +44,12 @@ public abstract class Ship {
             while (x < xStart + getWidth() + 2 && x < AppConstants.BOARD_SIZE) {
                 Cell cell = getBoard().getBoard()[y][x];
                 if (cell.getType().equals(EnumCellType.SHIP)) {
-                    System.out.print(String.format("%s", getCoords()));
                     return false;
-                } else {
-                    System.out.print("x");
                 }
                 x++;
             }
-            System.out.println();
             y++;
         }
-        System.out.println("--");
         return createShip();
     }
 
